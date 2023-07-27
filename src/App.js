@@ -37,11 +37,8 @@ function App() {
       <UserInput/>
       {/* Todo: Show below table conditionally (only once result data is available) */}
       {/* Show fallback text if no data is available */}
-      
-      <ResultsTable/>
-     
 
-     
+      <ResultsTable/>
     </div>
   );
 }
