@@ -1,7 +1,15 @@
 import React, { useState } from "react";
 
+const initialUserInput = {
+  currentSavings : 10000,
+  yearlyContribution : 1200,
+  expectedReturn : 7,
+  duration:10
+}
+
 const UserInput = () => {
-  
+  const [userInput, setUserInput] = useState(initialUserInput);
+
   //表單提交
   const submitHandler = (event) => {
     event.preventDefault();
@@ -11,13 +19,17 @@ const UserInput = () => {
 
   //表單重製
   const resetHandler = () => {
-    //...
-    console.log("Reset!");
+    setUserInput(initialUserInput);
   };
 
   //通用事件處理函式
   const inputChangeHandler = (input, value) => {
-    console.log(input, value);
+    setUserInput((prevInput)=>{
+      return{
+        ...prevInput,
+        [input]: value //動態設定物件的屬性，可以在更新狀態時，根據不同的 input 值，更新對應的屬性值。
+      }
+    });
   };
   return (
     <form onSubmit={submitHandler} className="form">
@@ -26,8 +38,9 @@ const UserInput = () => {
           <label htmlFor="current-savings">Current Savings ($)</label>
           <input
             onChange={(event) =>
-              inputChangeHandler("current-savings", event.target.value)
+              inputChangeHandler("currentSavings", event.target.value)
             }
+            value={userInput['currentSavings']}
             type="number"
             id="current-savings"
           />
@@ -36,8 +49,9 @@ const UserInput = () => {
           <label htmlFor="yearly-contribution">Yearly Savings ($)</label>
           <input
             onChange={(event) =>
-              inputChangeHandler("yearly-contribution", event.target.value)
+              inputChangeHandler("yearlyContribution", event.target.value)
             }
+            value={userInput['yearlyContribution']}
             type="number"
             id="yearly-contribution"
           />
@@ -50,8 +64,9 @@ const UserInput = () => {
           </label>
           <input
             onChange={(event) =>
-              inputChangeHandler("expected-return", event.target.value)
+              inputChangeHandler("expectedReturn", event.target.value)
             }
+            value={userInput['expectedReturn']}
             type="number"
             id="expected-return"
           />
@@ -62,6 +77,7 @@ const UserInput = () => {
             onChange={(event) =>
               inputChangeHandler("duration", event.target.value)
             }
+            value={userInput['duration']}
             type="number"
             id="duration"
           />
