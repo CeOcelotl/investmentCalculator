@@ -7,14 +7,13 @@ const initialUserInput = {
   duration:10
 }
 
-const UserInput = () => {
+const UserInput = (props) => {
   const [userInput, setUserInput] = useState(initialUserInput);
 
   //表單提交
   const submitHandler = (event) => {
     event.preventDefault();
-    //...
-    console.log("Submit!");
+    props.onCalculate(userInput);
   };
 
   //表單重製

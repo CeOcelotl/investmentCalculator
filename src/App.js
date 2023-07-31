@@ -1,44 +1,43 @@
-import Header from "./components/Header/Header";
-import UserInput from "./components/UserInput/UserInput";
-import ResultsTable from "./components/ResultsTable/ResultsTable";
+import Header from './components/Header/Header';
+import UserInput from './components/UserInput/UserInput';
+import ResultsTable from './components/ResultsTable/ResultsTable';
+import { useState } from 'react';
 
 function App() {
-  const calculateHandler = (userInput) => {
-    // Should be triggered when form is submitted
-    // You might not directly want to bind it to the submit event on the form though...
+  const [userInput, setUserInput] = useState(null);//userInput 這裡是儲存使用者輸入的數據
+  const calculateHandler = (userInput) => { // userInput 這裡是參數，會傳遞給 setUserInput 函式，用於更新 userInput 狀態的值。
+    setUserInput(userInput);
+  };
 
-    const yearlyData = []; // per-year results
+  const yearlyData = []; // per-year results
 
-    let currentSavings = +userInput['current-savings']; // feel free to change the shape of this input object!
-    const yearlyContribution = +userInput['yearly-contribution']; // as mentioned: feel free to change the shape...
-    const expectedReturn = +userInput['expected-return'] / 100;
+  if (userInput) {
+    let currentSavings = +userInput['currentSavings'];
+    const yearlyContribution = +userInput['yearlyContribution'];
+    const expectedReturn = +userInput['expectedReturn'] / 100;
     const duration = +userInput['duration'];
 
-    // The below code calculates yearly results (total savings, interest etc)
     for (let i = 0; i < duration; i++) {
       const yearlyInterest = currentSavings * expectedReturn;
       currentSavings += yearlyInterest + yearlyContribution;
       yearlyData.push({
-        // feel free to change the shape of the data pushed to the array!
         year: i + 1,
         yearlyInterest: yearlyInterest,
         savingsEndOfYear: currentSavings,
         yearlyContribution: yearlyContribution,
       });
     }
-
-    // do something with yearlyData ...
-  };
+  }
 
   return (
     <div>
-      <Header/>
+      <Header />
 
-      <UserInput/>
+      <UserInput onCalculate={calculateHandler} />
       {/* Todo: Show below table conditionally (only once result data is available) */}
       {/* Show fallback text if no data is available */}
 
-      <ResultsTable/>
+      <ResultsTable />
     </div>
   );
 }
